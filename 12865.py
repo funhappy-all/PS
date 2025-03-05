@@ -1,17 +1,19 @@
-# W, V를 이차원 배열로 입력받고, 길이만큼 반복, 
+#Dynamic programing을 활용.
 
-N = int(input("\n")) #number of object
-K = int(input("\n")) #
-wv = []
-C = []
-
-#물건 무게(W), 가치(V) 배열로 입력받기
+N, K = map(int, input().split())
+item = []
+kg=[]
 for i in range(0,N):
-    w, v = map(int, input("").split())
-    wv.append([w,v])
+    W, V = map(int, input().split())
+    item.append([W,V])
 
-# 탐색 과정
-n_wv = len(wv) 
+dp = [[0]*(K+1) for _ in range(N+1)]
+for i in range(1, N+1):
+    w, v = item[i-1]
+    for weight in range(K+1):
+        if w>weight:
+            dp[i][weight] = dp[i-1][weight]
+        else:
+            dp[i][weight] = max(dp[i-1][weight], dp[i-1][weight - w]+v)
 
-for j in range(0,n_wv):
-    
+print(dp[N][K])
